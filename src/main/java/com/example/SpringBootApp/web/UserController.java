@@ -29,12 +29,12 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public User UpdateUser (@PathVariable String id, @RequestBody User user){
+    public User UpdateUser (@PathVariable String id, @RequestBody User newUser){
         User currentUser = userRepository.findById(id).orElse(null);
-        currentUser.setName(user.getName());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setPassword(user.getPassword());
-        return currentUser;
+        currentUser.setName(newUser.getName());
+        currentUser.setEmail(newUser.getEmail());
+        currentUser.setPassword(newUser.getPassword());
+        return userRepository.save(currentUser);
     }
 
     @DeleteMapping("/user/{id}")
