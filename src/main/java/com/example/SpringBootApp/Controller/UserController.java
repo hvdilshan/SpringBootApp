@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:63342/")
 @RestController
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
 
     @GetMapping("/user")
     public List<User> GetAllUsers() {
@@ -31,12 +33,13 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/user")
+
+    @PostMapping("/addUser")
     public User AddUser (@RequestBody User user){
         return userRepository.save(user);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/updateUser/{id}")
     public User UpdateUser (@PathVariable String id, @RequestBody User newUser){
         User currentUser = userRepository.findById(id).orElse(null);
 
@@ -53,7 +56,7 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public String DeleteUser (@PathVariable String id){
         User user = userRepository.findById(id).orElse(null);
 
@@ -62,7 +65,6 @@ public class UserController {
         }
         else {
             userRepository.deleteById(id);
-
             return id;
         }
     }
