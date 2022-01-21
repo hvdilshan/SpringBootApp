@@ -4,7 +4,6 @@ import com.example.SpringBootApp.Error.UserNotFoundException;
 import com.example.SpringBootApp.Model.User;
 import com.example.SpringBootApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +15,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user")
-    public List<User> GetAllUsers(Model model) {
-
-        model.addAttribute("something","Hello");
+    public List<User> GetAllUsers() {
         return userRepository.findAll();
     }
 
