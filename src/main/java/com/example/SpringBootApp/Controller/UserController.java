@@ -15,7 +15,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
     @GetMapping("/user")
     public List<User> GetAllUsers() {
         return userRepository.findAll();
@@ -48,8 +47,9 @@ public class UserController {
         }
         else {
             currentUser.setName(newUser.getName());
+            currentUser.setAddress(newUser.getAddress());
             currentUser.setEmail(newUser.getEmail());
-            currentUser.setPassword(newUser.getPassword());
+            currentUser.setPhoneNo(newUser.getPhoneNo());
 
             return userRepository.save(currentUser);
         }

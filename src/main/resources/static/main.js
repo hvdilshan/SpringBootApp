@@ -6,13 +6,15 @@ $(document).ready(function () {
 
 $('#submit').click(function(){
     var name = $("#name").val();
+    var address = $("#address").val();
     var email = $("#email").val();
-    var password = $("#password").val();
+    var phoneNo = $("#phoneNo").val();
 
     let formData = {
         name:name,
+        address:address,
         email:email,
-        password:password
+        phoneNo:phoneNo
     }
 
 //    console.log(formData)
@@ -24,6 +26,13 @@ $('#submit').click(function(){
           title: 'Oops...',
           text: 'Please Fill The Name!',
         })
+      } else if (address == "") {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please Fill The Address!',
+        })
       } else if (email == "") {
         Swal.fire({
           position: 'top-end',
@@ -31,12 +40,12 @@ $('#submit').click(function(){
           title: 'Oops...',
           text: 'Please Fill The Email!',
         })
-      } else if (password == "") {
+      } else if (phoneNo == "") {
         Swal.fire({
           position: 'top-end',
           icon: 'error',
           title: 'Oops...',
-          text: 'Please Fill The Password!',
+          text: 'Please Fill The Phone Number!',
         })
       } else{
         $.ajax({
@@ -48,6 +57,7 @@ $('#submit').click(function(){
                   cache: false,
                   success: function (msg) {
                     if(msg){
+//                    console.log(msg)
                         Swal.fire({
                           position: 'top-end',
                           icon: 'success',
@@ -57,6 +67,7 @@ $('#submit').click(function(){
                         })
 
                         $('#form')[0].reset();
+                        load_data();
                     }
 
                   },
@@ -90,9 +101,11 @@ function load_data(table_id){
                     appendData +=
                         '<td hidden>' + row.id + '</td>';
                          appendData +='<td>' + row.name + '</td>';
+                         appendData +='<td>' + row.address + '</td>';
                          appendData +='<td>' + row.email + '</td>';
+                         appendData +='<td>' + row.phoneNo + '</td>';
                          appendData +='<td>' +
-                         "<input value='Update' type='submit' class='btn btn-warning' data-toggle='modal' data-target='#exampleModal' id = "+row.id+" onclick='update(this.id, \""+row.name+"\", \""+row.email+"\", \""+row.password+"\");' >"+
+                         "<input value='Update' type='submit' style='color:white;' class='btn btn-warning' data-toggle='modal' data-target='#exampleModal' id = "+row.id+" onclick='update(this.id, \""+row.name+"\", \""+row.address+"\", \""+row.email+"\", \""+row.phoneNo+"\");' >"+
                           "<input value='Delete' type='submit' class='btn btn-danger ml-3' id = "+row.id+" onclick='deleteUser(this.id);' >"+
                          '</td>';
                         appendData += '</tr>'
@@ -108,12 +121,14 @@ function load_data(table_id){
 
 }
 
-function update(id,name,email,password){
+function update(id,name,address,email,phoneNo){
+console.log(email)
 
     $("#updateId").val(id);
     $("#updateName").val(name);
+    $("#updateAddress").val(address);
     $("#updateEmail").val(email);
-    $("#updatePassword").val(password);
+    $("#updatePhoneNo").val(phoneNo);
 
 }
 
@@ -121,22 +136,32 @@ $('#updateSubmit').click(function(){
 
     var id = $("#updateId").val();
     var name = $("#updateName").val();
+    var address = $("#updateAddress").val();
     var email = $("#updateEmail").val();
-    var password = $("#updatePassword").val();
+    var phoneNo = $("#updatePhoneNo").val();
 
     let formData = {
         id:id,
         name:name,
+        address:address,
         email:email,
-        password:password
+        phoneNo:phoneNo
     }
+    console.log(formData)
 
-    if (name == "") {
+     if (name == "") {
         Swal.fire({
           position: 'top-end',
           icon: 'error',
           title: 'Oops...',
           text: 'Please Fill The Name!',
+        })
+      } else if (address == "") {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please Fill The Address!',
         })
       } else if (email == "") {
         Swal.fire({
@@ -145,43 +170,41 @@ $('#updateSubmit').click(function(){
           title: 'Oops...',
           text: 'Please Fill The Email!',
         })
-      } else if (password == "") {
+      } else if (phoneNo == "") {
         Swal.fire({
           position: 'top-end',
           icon: 'error',
           title: 'Oops...',
-          text: 'Please Fill The Password!',
+          text: 'Please Fill The Phone Number!',
         })
       } else{
         $.ajax({
-                  url: 'http://localhost:8080/updateUser/'+id,
-                  method: 'PUT',
-                  contentType: "application/json",
-                  data: JSON.stringify(formData),
-                  dataType: 'json',
-                  cache: false,
-                  success: function (msg) {
-                    if(msg){
+          url: 'http://localhost:8080/updateUser/'+id,
+          method: 'PUT',
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          dataType: 'json',
+          cache: false,
+          success: function (msg) {
+            if(msg){
+                    Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User has been Updated',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                    load_data();
+                    $('#exampleModal').hide();
+                    $('.modal-backdrop').hide();
+                }
 
-                        Swal.fire({
-                          position: 'top-end',
-                          icon: 'success',
-                          title: 'User has been Updated',
-                          showConfirmButton: false,
-                          timer: 2000
-                        })
-                        load_data();
-        //                $('#exampleModal').modal('hide');
-                    }
-
-                  },
-                  error: function (request, error) {
-                    console.log("Request " + JSON.stringify(error));
-                  }
-                });
+              },
+              error: function (request, error) {
+                console.log("Request " + JSON.stringify(error));
+              }
+            });
       }
-
-
 })
 
 function deleteUser(id){
