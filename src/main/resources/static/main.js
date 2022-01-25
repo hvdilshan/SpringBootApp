@@ -5,6 +5,7 @@ $(document).ready(function () {
 });
 
 $('#submit').click(function(){
+
     var name = $("#name").val();
     var address = $("#address").val();
     var email = $("#email").val();
@@ -19,7 +20,7 @@ $('#submit').click(function(){
 
 //    console.log(formData)
 
-    if (name == "") {
+     if (name == "") {
         Swal.fire({
           position: 'top-end',
           icon: 'error',
@@ -49,40 +50,40 @@ $('#submit').click(function(){
         })
       } else{
         $.ajax({
-                  url: 'http://localhost:8080/addUser',
-                  method: 'POST',
-                  contentType: "application/json",
-                  data: JSON.stringify(formData),
-                  dataType: 'json',
-                  cache: false,
-                  success: function (msg) {
-                    if(msg){
+          url: 'http://localhost:8080/addUser',
+          method: 'POST',
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          dataType: 'json',
+          cache: false,
+          success: function (msg) {
+            if(msg){
 //                    console.log(msg)
-                        Swal.fire({
-                          position: 'top-end',
-                          icon: 'success',
-                          title: 'User has been saved',
-                          showConfirmButton: false,
-                          timer: 2000
-                        })
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'User has been saved',
+                  showConfirmButton: false,
+                  timer: 2000
+                })
 
-                        $('#form')[0].reset();
-                        load_data();
-                    }
-
-                  },
-                  error: function (request, error) {
-                    console.log("Request " + JSON.stringify(error));
-                  }
-                });
+                $('#form')[0].reset();
                 load_data();
+            }
+
+          },
+          error: function (request, error) {
+            console.log("Request " + JSON.stringify(error));
+          }
+        });
+        load_data();
       }
 
+})
 
+function load_data(){
 
-    })
-
-function load_data(table_id){
+    var appendData = "";
 
     $('#table_data').html("");
 
@@ -92,9 +93,8 @@ function load_data(table_id){
           contentType: "application/json",
           cache: false,
           success: function (response) {
-            if(response){
 
-                var appendData = "";
+            if(response){
 
                 response.forEach(function (row) {
                     appendData += '<tr>';
@@ -112,7 +112,7 @@ function load_data(table_id){
                     });
 
             }
-        $('#table_data').html(appendData);
+            $('#table_data').html(appendData);
           },
           error: function (request, error) {
             console.log("Request " + JSON.stringify(error));
@@ -122,7 +122,8 @@ function load_data(table_id){
 }
 
 function update(id,name,address,email,phoneNo){
-console.log(email)
+
+    //console.log(email)
 
     $("#updateId").val(id);
     $("#updateName").val(name);
@@ -147,7 +148,7 @@ $('#updateSubmit').click(function(){
         email:email,
         phoneNo:phoneNo
     }
-    console.log(formData)
+//    console.log(formData)
 
      if (name == "") {
         Swal.fire({
