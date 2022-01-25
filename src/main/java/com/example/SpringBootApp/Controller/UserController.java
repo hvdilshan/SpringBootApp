@@ -11,14 +11,17 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    //dependency injection
     @Autowired
     private UserRepository userRepository;
 
+    //get all user details
     @GetMapping("/user")
     public List<User> GetAllUsers() {
         return userRepository.findAll();
     }
 
+    //get user details by using id
     @GetMapping("/user/{id}")
     public User GetUserById (@PathVariable String id){
 
@@ -31,11 +34,13 @@ public class UserController {
         return user;
     }
 
+    //create new user
     @PostMapping("/addUser")
     public User AddUser (@RequestBody User user){
         return userRepository.save(user);
     }
 
+    //update user details by using id
     @PutMapping("/updateUser/{id}")
     public User UpdateUser (@PathVariable String id, @RequestBody User newUser){
         User currentUser = userRepository.findById(id).orElse(null);
@@ -54,6 +59,7 @@ public class UserController {
 
     }
 
+    //delete user details by id
     @DeleteMapping("/deleteUser/{id}")
     public String DeleteUser (@PathVariable String id){
         User user = userRepository.findById(id).orElse(null);
