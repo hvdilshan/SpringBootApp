@@ -23,7 +23,7 @@ public class UserController {
 
     //get user details by using id
     @GetMapping("/user/{id}")
-    public User GetUserById (@PathVariable String id){
+    public User GetUserById (@PathVariable String id)throws UserNotFoundException {
 
         User user = userRepository.findById(id).orElse(null);
 
@@ -42,7 +42,7 @@ public class UserController {
 
     //update user details by using id
     @PutMapping("/updateUser/{id}")
-    public User UpdateUser (@PathVariable String id, @RequestBody User newUser){
+    public User UpdateUser (@PathVariable String id, @RequestBody User newUser) throws UserNotFoundException{
         User currentUser = userRepository.findById(id).orElse(null);
 
         if(currentUser == null) {
@@ -61,7 +61,7 @@ public class UserController {
 
     //delete user details by id
     @DeleteMapping("/deleteUser/{id}")
-    public String DeleteUser (@PathVariable String id){
+    public String DeleteUser (@PathVariable String id) throws UserNotFoundException{
         User user = userRepository.findById(id).orElse(null);
 
         if(user == null) {
